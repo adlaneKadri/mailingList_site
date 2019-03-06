@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This file must be runned in a separet project 
+ * this is the test Client of the server
  */
 package listediffusionclient;
 
