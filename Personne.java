@@ -1,42 +1,41 @@
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
-public class Personne {
 
-    private String email;
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[a-zA-Z]+[A-Z0-9._%+-]*@(lipn.univ-paris13.fr)$", Pattern.CASE_INSENSITIVE);
+class personne {
+    private String mailAdress;
 
-    public String getMail() {
-        return email;
+    public String getMailAdress() {
+        return mailAdress;
     }
 
-    public void setMail(String email){
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
-            Scanner sc = new Scanner(System.in);
-            while (!matcher.find()){
-                System.out.println("EMAIL NOT CORRECT!\nLa form d'un email est comme suit : " +
-                        "\npseudo@lipn.univ-paris13.fr\n \nTapez un nouveau email s'il vous plait!");
-                for (int i=0;i<5;i++){
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(400);
-                        System.out.print(".");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                System.out.println();
-                email = sc.nextLine();
-               matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
-            }
+    public void setMailAdress(String mailAdress) {
+        this.mailAdress = mailAdress;
+    }
 
-        System.out.println("email accepted!\n");
-        this.email=email;
+    public personne(String mailAdress) throws AddressException {
+        if(emailvalidatorr(mailAdress))
+            this.mailAdress = mailAdress; 
+        else throw new AddressException();
+
+        
+    }
+
+    
+    public boolean emailvalidatorr(String mail) throws AddressException
+    {
+        boolean isValid = false;
+        try{
+            InternetAddress internetaddress = new InternetAddress(mail);
+            internetaddress.validate();
+            isValid = true;
+        } catch(AddressException e)
+        {
+            System.out.println("ERREUR de creation: "+mail+ " est une adress mail invalide! ");
         }
-
-    public static void main(String[] args) {
-        Personne personne = new Personne();
-        personne.setMail("9adlan@lipn.univ-paris13.fr");
+        return isValid;
+        
     }
 }
