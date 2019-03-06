@@ -4,7 +4,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 
-class personne {
+class Personne {
     private String mailAdress;
 
     public String getMailAdress() {
