@@ -1,31 +1,80 @@
-import java.util.concurrent.*;
-import java.net.*;
-import java.io.*;
 
-public class Maitre {
-/* Class Server */
-    private  ServerSocket serverSocket;
-    private ExecutorService pool;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-    public Maitre(int port, int poolSize) {
-        try {
-            serverSocket = new ServerSocket(port);
-            pool = Executors.newFixedThreadPool(poolSize);
-        } catch (IOException e) {
-            e.printStackTrace();
+/**
+ *
+ * @author ameni
+ */
+public class Server {
+    private ServerSocket serverSocket;
+    private Socket socket;
+    public static final int port = 33333;
+    private static final int poolSize = 10;
+    private ExecutorService pool = null;
+    private Boolean isFinished = false;
+    
+    //Getters&setters
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
+    public void setServerSocket(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+
+    public ExecutorService getPool() {
+        return pool;
+    }
+
+    public void setPool(ExecutorService pool) {
+        this.pool = pool;
+    }
+
+    public Boolean getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
+    }
+    
+    //constructor
+    public Server(int port, int size) {
+       try {
+           serverSocket = new ServerSocket(port,size);
+           pool = Executors.newFixedThreadPool(poolSize);
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.
+                    getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
-
-
-    public void  run() throws IOException {
-        while (true){
-            pool.execute(new Esclave(serverSocket.accept()));
+    
+    public void ManageRequest(){
+        while (!isFinished) {
+            try { 
+                pool.execute(new Esclave(serverSocket.accept(),this));
+            }
+            catch (IOException e) {System.out.println(e);}
+            finally {
+                try { if (socket != null) socket.close();}
+                catch (IOException e) {}
+            }
         }
     }
-
-    public static void main(String[] args) throws IOException {
-        Maitre maitre = new Maitre(3344,5);
-        maitre.run();
-    }
+    
 }
