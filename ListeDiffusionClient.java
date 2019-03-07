@@ -66,7 +66,9 @@ public class ListeDiffusionClient {
         
                 output.write("create_list "+nomliste+" "+th+" "+diffuseur+" "+mdp); output.flush();
                 break;
-            
+            case 7:
+                output.write("afficher_list"); output.flush();
+                break; 
         }
         
         
