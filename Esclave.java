@@ -33,6 +33,12 @@ public class Esclave implements Runnable {
                     String nom = commande[1];
                     String pswd = commande[2];
                     deleteList(nom,pswd);
+                    break;
+                case "subscribe_list":
+                    String liste = commande[1];
+                    String mail = commande[2];
+                    subscribeList(liste,mail);
+                    break;
                 case "afficher_list":
                     afficheList();
                     break;
@@ -79,6 +85,20 @@ public class Esclave implements Runnable {
             }     
         }
         if(!deleted) System.out.println("nom de liste ou mdp incorrecte!");   
+    }
+    
+    private void subscribeList(String liste, String mail) {
+        List<ListeDeDiffusion> AllList = serveur.getAllList();
+        searchloop:
+        for(ListeDeDiffusion n : AllList)
+        {
+            if(n.getNomListe().equals(liste))
+            {
+               n.addAbonne(mail);
+               System.out.println("vous avez été ajouté !");
+                
+            }
+        }
     }
     
 }
