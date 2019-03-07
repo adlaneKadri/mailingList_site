@@ -91,4 +91,8 @@ public class Server {
         AllList.add(l);
     }
     
+    void DeleteList(ListeDeDiffusion n) {
+        AllList.remove(n);
+    }
+    
 }
