@@ -15,11 +15,10 @@ class Personne {
         this.mailAdress = mailAdress;
     }
 
-    public personne(String mailAdress) throws AddressException {
+    public Personne(String mailAdress) throws AddressException{
         if(emailvalidatorr(mailAdress))
             this.mailAdress = mailAdress; 
-        else throw new AddressException();
-
+        
         
     }
 
