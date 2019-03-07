@@ -63,8 +63,17 @@ public class ListeDiffusionClient {
                 String diffuseur = sc.nextLine();
                 System.out.println("Veuillez saisir votre mot de passe :");
                 String mdp = sc.nextLine();
-        
                 output.write("create_list "+nomliste+" "+th+" "+diffuseur+" "+mdp); output.flush();
+                break;
+             case 2:
+                //supprimer liste
+                Scanner in = new Scanner(System.in);
+                System.out.println("Veuillez saisir le nom de la liste que vous voulez supprimer :");
+                String nomListe = in.nextLine();
+                System.out.println("Veuillez saisir le mdp de la liste");
+                String pswd = in.nextLine();
+                output.write("remove_list "+nomListe+" "+pswd);
+                output.flush();
                 break;
             case 7:
                 output.write("afficher_list"); output.flush();
