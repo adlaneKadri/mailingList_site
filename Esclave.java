@@ -34,10 +34,10 @@ public class Esclave implements Runnable {
                     int i =1;
                     System.out.println("Il y'a "+ AllList.size()+ " liste de diffusion :");
                     for(ListeDeDiffusion n : AllList)
-                           System.out.println("liste numero: "+i+"/n "
+                        {System.out.println("liste numero: "+i+"\n "
                               + "Nom: "+ n.nomListe + ", theme: "+ n.getTheme()
                               +" , nombre d'abonnées: "+ n.getAbonnes().size());
-                            i++;
+                            i++;}
                     break;
                 default: ;
             }
