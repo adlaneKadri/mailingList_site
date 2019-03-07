@@ -90,9 +90,63 @@ public class ListeDeDiffusion {
         
     }
     
+    //lister les listes existantes
+    public void lister(){
+        int i =1;
+        System.out.println("Il y'a "+ AllList.size()+ " liste de diffusion :");
+        for(ListeDeDiffusion n : AllList)
+            System.out.println("liste numero: "+i+"/n "
+                    + "Nom: "+ n.nomListe + ", theme: "+ n.theme.theme 
+                    +" , nombre d'abonnées: "+ n.abonnes.size());
+            i++;
+    }
+    
+    //supprimer une liste
+    public void supprimer(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Veuillez saisir le nom de la liste que vous voulez supprimer:");
+        String nom = sc.nextLine();
+       
+        searchloop:
+        for (ListeDeDiffusion l : AllList) {
+            if (l.getNomListe().equals(nom))
+                while(true){
+                    System.out.println("Veuillez saisir le mot de passe de la liste que vous voulez supprimer:");
+                    String mdp = sc.nextLine();
+                    if (l.getPassword().equals(mdp))
+                        {System.out.println("mdp correcte!");
+                        AllList.remove(l);
+                        System.out.println("liste supprimé");
+                        break searchloop;}
+                    else
+                        System.out.println("mdp incorrecte!");
+                }               
+        }
+    }
+    
     //ajouter abonne
-    public static void addAbonne(Personne abonne) {
-        ListeDeDiffusion.abonnes.add(abonne);
+    public void addAbonne(String mailabonne) {
+        personne abonne;
+        try {
+            abonne = new personne(mailabonne);
+            ListeDeDiffusion.abonnes.add(abonne);
+        } catch (AddressException ex) {
+            Logger.getLogger(ListeDeDiffusion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //supprimer abonne
+    public  boolean removeAbonne(String mailabonne) {
+        for(personne abonne : abonnes) 
+            if (abonne.getMailAdress().equals(mailabonne))
+            {
+                System.out.println("Abonné trouvé !");
+                abonnes.remove(abonne);
+                System.out.println("Abonné supprimé avec succes");
+                return true;
+            }
+        System.out.println("Abonné n'existe pas");
+        return false;
     }
     
 }
