@@ -13,7 +13,7 @@ public class ListeDeDiffusion {
      */
     public String nomListe;
     public theme theme;
-    public static enum theme {
+    public enum theme {
         sociale ("sociale"), 
         evenement ("evenement"), 
         reunion ("reunion"),  
@@ -25,8 +25,8 @@ public class ListeDeDiffusion {
     }
     public Personne diffuseur;
     private String password;
-    private static List<Personne> abonnes = new ArrayList();
-    public static List<ListeDeDiffusion> AllList= new ArrayList(); 
+    private List<Personne> abonnes = new ArrayList();
+    public List<ListeDeDiffusion> AllList= new ArrayList(); 
     
     //Getters & Setters
 
@@ -62,12 +62,12 @@ public class ListeDeDiffusion {
         this.password = password;
     }
 
-    public static List<Personne> getAbonnes() {
+    public  List<Personne> getAbonnes() {
         return abonnes;
     }
 
-    public static void setAbonnes(List<Personne> abonnes) {
-        ListeDeDiffusion.abonnes = abonnes;
+    public void setAbonnes(List<Personne> abonne) {
+        abonnes = abonne;
     }
     
     
