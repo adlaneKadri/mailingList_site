@@ -47,6 +47,7 @@ public class ListeDiffusionClient {
         System.out.println("4 - Se désabonner d'une liste de diffusion");
         System.out.println("5 - Envoyer un message à une liste de diffusion");
         System.out.println("6 - Recupérer les thèmes d'une liste de diffusion");
+        System.out.println("7 - Afficher toutes les listes de diffusion");
         int choix = lecture.nextInt();
         /***************************************************/
         
