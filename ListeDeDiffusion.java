@@ -23,9 +23,9 @@ public class ListeDeDiffusion {
             this.theme=theme;
         }
     }
-    public personne diffuseur;
+    public Personne diffuseur;
     private String password;
-    private static List<personne> abonnes = new ArrayList();
+    private static List<Personne> abonnes = new ArrayList();
     public static List<ListeDeDiffusion> AllList= new ArrayList(); 
     
     //Getters & Setters
@@ -46,11 +46,11 @@ public class ListeDeDiffusion {
         this.theme = theme;
     }
 
-    public personne getDiffuseur() {
+    public Personne getDiffuseur() {
         return diffuseur;
     }
 
-    public void setDiffuseur(personne diffuseur) {
+    public void setDiffuseur(Personne diffuseur) {
         this.diffuseur = diffuseur;
     }
 
@@ -62,11 +62,11 @@ public class ListeDeDiffusion {
         this.password = password;
     }
 
-    public static List<personne> getAbonnes() {
+    public static List<Personne> getAbonnes() {
         return abonnes;
     }
 
-    public static void setAbonnes(List<personne> abonnes) {
+    public static void setAbonnes(List<Personne> abonnes) {
         ListeDeDiffusion.abonnes = abonnes;
     }
     
@@ -78,7 +78,7 @@ public class ListeDeDiffusion {
         this.theme = theme.valueOf(th);
         this.password = password;
         try{
-            this.diffuseur = new personne(mail_diffuseur) ;
+            this.diffuseur = new Personne(mail_diffuseur) ;
             System.out.println("liste crée ! nom de la liste: " +this.nomListe +
                 ", theme choisi: "+ this.theme.theme+ ", adresse mail du proprietaire: "
                     +this.diffuseur.getMailAdress());
@@ -91,7 +91,7 @@ public class ListeDeDiffusion {
     }
     
     //ajouter abonne
-    public static void addAbonne(personne abonne) {
+    public static void addAbonne(Personne abonne) {
         ListeDeDiffusion.abonnes.add(abonne);
     }
     
