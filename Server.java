@@ -18,6 +18,7 @@ public class Server {
     private static final int poolSize = 10;
     private ExecutorService pool = null;
     private Boolean isFinished = false;
+    public List<ListeDeDiffusion> AllList = new ArrayList(); 
     
     //Getters&setters
     public ServerSocket getServerSocket() {
@@ -52,6 +53,14 @@ public class Server {
         this.isFinished = isFinished;
     }
     
+    public List<ListeDeDiffusion> getAllList() {
+        return AllList;
+    }
+
+    public void setAllList(List<ListeDeDiffusion> AllList) {
+        this.AllList = AllList;
+    }
+    
     //constructor
     public Server(int port, int size) {
        try {
@@ -75,6 +84,11 @@ public class Server {
                 catch (IOException e) {}
             }
         }
+    }
+    
+    public void ManageList(ListeDeDiffusion l)
+    {
+        AllList.add(l);
     }
     
 }
