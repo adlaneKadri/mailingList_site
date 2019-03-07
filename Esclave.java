@@ -39,6 +39,11 @@ public class Esclave implements Runnable {
                     String mail = commande[2];
                     subscribeList(liste,mail);
                     break;
+                case "unscribe_list":
+                    String Liste = commande[1];
+                    String Mail = commande[2];
+                    unscribeList(Liste,Mail);
+                    break;
                 case "afficher_list":
                     afficheList();
                     break;
@@ -101,4 +106,15 @@ public class Esclave implements Runnable {
         }
     }
     
+    private void unscribeList(String Liste, String Mail) {
+        List<ListeDeDiffusion> AllList = serveur.getAllList();
+        searchloop:
+        for(ListeDeDiffusion n : AllList)
+        {
+            if(n.getNomListe().equals(Liste))
+            {n.removeAbonne(Mail);
+            System.out.println("vous êtes désabonné de la liste de diffusion: "+Liste);
+            }
+        }
+    }
 }
