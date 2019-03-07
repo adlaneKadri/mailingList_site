@@ -75,6 +75,16 @@ public class ListeDiffusionClient {
                 output.write("remove_list "+nomListe+" "+pswd);
                 output.flush();
                 break;
+            case 3:
+                //s'abonner à une liste
+                Scanner ab = new Scanner(System.in);
+                System.out.println("Veuillez saisir le nom de la liste que vous voulez s'abonner :");
+                String NomListe = ab.nextLine();
+                System.out.println("Veuillez saisir votre mail");
+                String mail = ab.nextLine();
+                output.write("subscribe_list "+NomListe+" "+mail);
+                output.flush();
+                break;
             case 7:
                 output.write("afficher_list"); output.flush();
                 break; 
