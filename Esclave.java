@@ -29,7 +29,16 @@ public class Esclave implements Runnable {
                     System.out.println("im heree!");
                     createList(commande);
                     break;
-
+                case "afficher_list":
+                    List<ListeDeDiffusion> AllList = serveur.getAllList();
+                    int i =1;
+                    System.out.println("Il y'a "+ AllList.size()+ " liste de diffusion :");
+                    for(ListeDeDiffusion n : AllList)
+                           System.out.println("liste numero: "+i+"/n "
+                              + "Nom: "+ n.nomListe + ", theme: "+ n.getTheme()
+                              +" , nombre d'abonnées: "+ n.getAbonnes().size());
+                            i++;
+                    break;
                 default: ;
             }
         }
@@ -41,6 +50,7 @@ public class Esclave implements Runnable {
 
     public void createList(String[] commande) {
         ListeDeDiffusion L=new ListeDeDiffusion(commande[1],commande[2],commande[3],commande[4]);
+        serveur.ManageList(L);
     }
     
 }
