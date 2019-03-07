@@ -26,8 +26,7 @@ public class ListeDeDiffusion {
     public Personne diffuseur;
     private String password;
     private List<Personne> abonnes = new ArrayList();
-    public List<ListeDeDiffusion> AllList= new ArrayList(); 
-    
+     
     //Getters & Setters
 
     public String getNomListe() {
@@ -85,44 +84,10 @@ public class ListeDeDiffusion {
             AllList.add(this); //on garde une liste de toutes les listes qu'on crée
         } catch(AddressException e){
             Logger.getLogger(ListeDeDiffusion.class.getName()).log(Level.SEVERE, null, e);
-            System.out.println("liste non créer");}
-
-        
+            System.out.println("liste non créer");}    
     }
     
-    //lister les listes existantes
-    public void lister(){
-        int i =1;
-        System.out.println("Il y'a "+ AllList.size()+ " liste de diffusion :");
-        for(ListeDeDiffusion n : AllList)
-            System.out.println("liste numero: "+i+"/n "
-                    + "Nom: "+ n.nomListe + ", theme: "+ n.theme.theme 
-                    +" , nombre d'abonnées: "+ n.abonnes.size());
-            i++;
-    }
-    
-    //supprimer une liste
-    public void supprimer(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Veuillez saisir le nom de la liste que vous voulez supprimer:");
-        String nom = sc.nextLine();
-       
-        searchloop:
-        for (ListeDeDiffusion l : AllList) {
-            if (l.getNomListe().equals(nom))
-                while(true){
-                    System.out.println("Veuillez saisir le mot de passe de la liste que vous voulez supprimer:");
-                    String mdp = sc.nextLine();
-                    if (l.getPassword().equals(mdp))
-                        {System.out.println("mdp correcte!");
-                        AllList.remove(l);
-                        System.out.println("liste supprimé");
-                        break searchloop;}
-                    else
-                        System.out.println("mdp incorrecte!");
-                }               
-        }
-    }
+   
     
     //ajouter abonne
     public void addAbonne(String mailabonne) {
