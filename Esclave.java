@@ -3,6 +3,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 
 public class Esclave implements Runnable {
@@ -43,6 +49,14 @@ public class Esclave implements Runnable {
                     String Liste = commande[1];
                     String Mail = commande[2];
                     unscribeList(Liste,Mail);
+                    break;
+                case "send_email_to_list":
+                    String _Liste = commande[1];
+                    String sender = commande[2];
+                    String Pswd = commande[3];
+                    String subject = commande[4];
+                    String body = commande[5];
+                    sendMail(_Liste,sender,Pswd,subject,body);
                     break;
                 case "afficher_list":
                     afficheList();
@@ -117,4 +131,61 @@ public class Esclave implements Runnable {
             }
         }
     }
+    
+    private ListeDeDiffusion GetList(String nomListe){
+    List<ListeDeDiffusion> AllList = serveur.getAllList();
+        for(ListeDeDiffusion n : AllList)
+        {
+            if(n.getNomListe().equals(nomListe))
+            return n;
+        }
+        return null;
+    }
+    
+    private void sendMail(String NameList, String from, String password, String MailSubject, String MailBody)
+    {
+        ListeDeDiffusion liste = GetList(NameList);
+        if (liste ==null)
+        {
+            System.out.println("liste de diffusion n'existe pas!!");
+            return;
+        }
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+	props.put("mail.smtp.starttls.enable", "true");
+	props.put("mail.smtp.host", "smtp.gmail.com");
+	props.put("mail.smtp.port", "587");     
+        Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(from, password);
+			}
+		  });
+        try {
+         // Create a default MimeMessage object.
+         MimeMessage message = new MimeMessage(session);
+         // Set From: header field of the header.
+         message.setFrom(new InternetAddress(from));
+         // Set To: header field of the header.
+         List<personne> Abonnes = liste.getAbonnes();
+         List<String> to =new ArrayList();
+         String receivers;
+         for(personne p : Abonnes)
+         {
+             to.add(p.getMailAdress());
+         }
+         receivers = String.join(",", to);
+         InternetAddress[] parse = InternetAddress.parse(receivers , true);
+         message.setRecipients(javax.mail.Message.RecipientType.TO,  parse);
+         // Set Subject: header field
+         message.setSubject(MailSubject);
+         // Now set the actual message
+         message.setText(MailBody);
+         // Send message
+         Transport.send(message);
+         System.out.println("Email envoyé.");
+      } catch (MessagingException mex) {
+         mex.printStackTrace();
+      }
+   }        
 }
