@@ -164,9 +164,7 @@ public class Esclave implements Runnable {
         try {
          // Create a default MimeMessage object.
          MimeMessage message = new MimeMessage(session);
-         // Set From: header field of the header.
          message.setFrom(new InternetAddress(from));
-         // Set To: header field of the header.
          List<personne> Abonnes = liste.getAbonnes();
          List<String> to =new ArrayList();
          String receivers;
