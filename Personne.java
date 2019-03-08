@@ -1,40 +1,40 @@
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import java.util.regex.*;
 
+public class Personne {
 
-class Personne {
-    private String mailAdress;
+    private String email;
+    /* Constructor */
 
-    public String getMailAdress() {
-        return mailAdress;
+    public Personne(String email) throws AddressException {
+        if (isValid(email))
+            this.email = email;
+        else {
+            System.out.println("Be careful, you have used an invalid email\n" +
+                    "you have to choose an other email using setEmail function\n");
+            }
     }
 
-    public void setMailAdress(String mailAdress) {
-        this.mailAdress = mailAdress;
+    /* GETTER and SETTER */
+    public String getMail() {
+        return email;
     }
 
-    public Personne(String mailAdress) throws AddressException{
-        if(emailvalidatorr(mailAdress))
-            this.mailAdress = mailAdress; 
-        
-        
+    public void setEmail(String email) throws AddressException {
+        if (isValid(email))
+            this.email = email;
+        else
+            System.out.println("EMAIL not valid");
     }
 
-    
-    public boolean emailvalidatorr(String mail) throws AddressException
-    {
-        boolean isValid = false;
-        try{
-            InternetAddress internetaddress = new InternetAddress(mail);
-            internetaddress.validate();
-            isValid = true;
-        } catch(AddressException e)
-        {
-            System.out.println("ERREUR de creation: "+mail+ " est une adress mail invalide! ");
-        }
-        return isValid;
-        
+    public boolean isValid(String email) throws AddressException {
+          return Email.isValid(email);
+
     }
+
+    /*public static void main(String[] args) throws AddressException {
+        Personne personne = new Personne("adlan@lipn.univ-paris13.fr");
+        System.out.println(personne.getMail());
+    }*/
 }
