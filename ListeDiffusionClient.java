@@ -95,6 +95,22 @@ public class ListeDiffusionClient {
                 output.write("unscribe_list "+Nomliste+" "+Mail);
                 output.flush();
                 break;
+            case 5 :
+                //envoyer un message à une liste de diff
+                Scanner msg = new Scanner(System.in);
+                System.out.println("Veuillez saisir le nom de la liste :");
+                String liste = msg.nextLine();
+                System.out.println("Veuillez saisir votre mail");
+                String sender = msg.nextLine();
+                System.out.println("Veuillez saisir votre mdp");
+                String Pswd = msg.nextLine();
+                System.out.println("Veuillez saisir l'objet de votre mail");
+                String object = msg.nextLine();
+                System.out.println("Veuillez saisir le corps de votre mail");
+                String body = msg.nextLine();
+                output.write("send_email_to_list "+liste+" "+sender+" "+Pswd+" "+object+" "+body);
+                output.flush();
+                break;
             case 7:
                 output.write("afficher_list"); output.flush();
                 break; 
