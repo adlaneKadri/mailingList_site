@@ -1,3 +1,4 @@
+import org.w3c.dom.Element;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,10 +10,11 @@ import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
+import javax.xml.parsers.ParserConfigurationException;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.stream.Collectors;
+
+
 
 public class Esclave implements  Runnable{
     private final Socket socket;
@@ -136,6 +138,38 @@ public class Esclave implements  Runnable{
         }
     }
 
+    public void recuperThemes() throws ParserConfigurationException {
+        XmlFile xmlFile = new XmlFile("listDifusions");
+        Element element, listFlower;
+        int i;
+        for (Theme theme : Theme.values()) {
+            element = xmlFile.appendXMLroot(xmlFile.root, theme.toString());
+
+            if (server.getAllList().size() > 0) {
+                for (ListeDeDiffusion listeDeDiffusion : server.getAllList()) {
+                    String themeIS = listeDeDiffusion.getTheme().toString();
+                    if (themeIS.equals(theme.toString())) {
+                        String nom = listeDeDiffusion.getNom();
+                        String difuseur = listeDeDiffusion.getDiffuseur().getMail();
+                        String password = listeDeDiffusion.getPassword();
+
+                        xmlFile.appendXMLattribut(element, "list_name", nom);
+                        xmlFile.appendXMLattribut(element, "difuseur", difuseur);
+                        xmlFile.appendXMLattribut(element, "password", password);
+
+                        listFlower = xmlFile.appendXMLroot(element, "listAbonner");
+                        i = 1 ;
+                        for (Personne personne: listeDeDiffusion.getListAbonnes()
+                        ) {
+                            String emailAbonner = personne.getMail();
+                            xmlFile.appendXMLattribut(listFlower,"Email_of_follower_num_"+i,emailAbonner);
+                        }
+                    }
+                }
+            }
+        }
+        xmlFile.buildXMLfile();
+    }
 
     @Override
     public void run() {
@@ -186,6 +220,9 @@ public class Esclave implements  Runnable{
                 String Mail = commande[2];
                 unscribeList(Liste,Mail);
                 break;
+            case "recuperer_par_theme":
+                recuperThemes();
+                break;
             case "send_email_to_list":
                 Msn.emails= (ArrayList<String>) GetListeDeDiffusion(commande[1]).getListAbonnes().stream().map(p-> p.getMail()).collect(Collectors.toList());;
                 if (!commande[6].equals("o") && !commande[6].equals("O")){
@@ -201,12 +238,11 @@ public class Esclave implements  Runnable{
                 break;
             default: ;
         }
-    } finally {
+    } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } finally {
         try { if (socket != null) socket.close();}
         catch (IOException e) {}
     }
 }
-
-
 }
-
