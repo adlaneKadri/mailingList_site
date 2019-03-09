@@ -103,12 +103,15 @@ public class ListeDiffusionClient {
                 output.write("send_email_to_list "+liste+" "+sender+" "+Pswd+" "+object+" "+body+" "+defaults);
                 output.flush();
                 break;
+            case 6:
+                output.write("recuperer_par_theme");
+                output.flush();
+                break;
             case 7:
                 output.write("afficher_list");
                 output.flush();
                 break;
         }
-
         connexion.shutdownOutput();
     }
 }
