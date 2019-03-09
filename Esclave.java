@@ -140,10 +140,9 @@ public class Esclave implements  Runnable{
 
     public void recuperThemes() throws ParserConfigurationException {
         XmlFile xmlFile = new XmlFile("listDifusions");
-        Element element, listFlower;
         int i;
         for (Theme theme : Theme.values()) {
-            element = xmlFile.appendXMLroot(xmlFile.root, theme.toString());
+           Element element = xmlFile.appendXMLroot(xmlFile.root, theme.toString());
 
             if (server.getAllList().size() > 0) {
                 for (ListeDeDiffusion listeDeDiffusion : server.getAllList()) {
@@ -157,7 +156,7 @@ public class Esclave implements  Runnable{
                         xmlFile.appendXMLattribut(element, "difuseur", difuseur);
                         xmlFile.appendXMLattribut(element, "password", password);
 
-                        listFlower = xmlFile.appendXMLroot(element, "listAbonner");
+                        Element  listFlower = xmlFile.appendXMLroot(element, "listAbonner");
                         i = 1 ;
                         for (Personne personne: listeDeDiffusion.getListAbonnes()
                         ) {
