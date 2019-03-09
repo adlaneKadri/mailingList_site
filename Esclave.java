@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 import java.util.Optional;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class Esclave implements  Runnable{
     private final Socket socket;
@@ -61,10 +62,13 @@ public class Esclave implements  Runnable{
         for(ListeDeDiffusion list : allList){
             if(list.getNom().equals(liste)){
                 added = list.addAbonne(mail);
-                System.out.println("vous avez été ajouté !");
                 break ;
             }
         }
+        if (added)
+            System.out.println("vous avez été ajouté !");
+        else
+            System.out.println("ERROR !");
         return added;
     }
 
@@ -183,12 +187,14 @@ public class Esclave implements  Runnable{
                 unscribeList(Liste,Mail);
                 break;
             case "send_email_to_list":
-                String _Liste = commande[1];
-                String sender = commande[2];
-                String Pswd = commande[3];
-                String subject = commande[4];
-                String body = commande[5];
-                sendMail(_Liste,sender,Pswd,subject,body);
+                Msn.emails= (ArrayList<String>) GetListeDeDiffusion(commande[1]).getListAbonnes().stream().map(p-> p.getMail()).collect(Collectors.toList());;
+                if (!commande[6].equals("o") && !commande[6].equals("O")){
+                    Msn.EmailSender = commande[2];
+                    Msn.Password = commande[3];
+                }
+                Msn.sujet = commande[4];
+                Msn.messageCorp = commande[5];
+                Msn.sendMail();
                 break;
             case "afficher_list":
                 afficheList();
@@ -201,4 +207,6 @@ public class Esclave implements  Runnable{
     }
 }
 
+
 }
+
