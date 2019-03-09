@@ -3,17 +3,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class ListeDeDiffusion {
-    /*public enum Theme {
-        sociale ("sociale"),
-        evenement ("evenement"),
-        reunion ("reunion"),
-        nouvelles ("nouvelles");
 
-        private  String theme;
-        Theme(String theme) {
-            this.theme=theme;
-        }
-    }*/
     private String nom;
     private Theme theme;
     private Personne diffuseur;
