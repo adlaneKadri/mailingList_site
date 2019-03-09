@@ -86,15 +86,21 @@ public class ListeDiffusionClient {
                 Scanner msg = new Scanner(System.in);
                 System.out.println("Veuillez saisir le nom de la liste :");
                 String liste = msg.nextLine();
-                System.out.println("Veuillez saisir votre mail");
-                String sender = msg.nextLine();
-                System.out.println("Veuillez saisir votre mdp");
-                String Pswd = msg.nextLine();
+                System.out.println("si vous voulez utiliser l'email par default tape : 'o' or 'O' ");
+                String defaults = msg.nextLine();
+                String sender = "default email";
+                String Pswd = "default password";
+                if (!defaults.equals("o") && !defaults.equals("O")) {
+                    System.out.println("Veuillez saisir votre mail");
+                     sender = msg.nextLine();
+                    System.out.println("Veuillez saisir votre mdp");
+                     Pswd = msg.nextLine();
+                }
                 System.out.println("Veuillez saisir l'objet de votre mail");
                 String object = msg.nextLine();
                 System.out.println("Veuillez saisir le corps de votre mail");
                 String body = msg.nextLine();
-                output.write("send_email_to_list "+liste+" "+sender+" "+Pswd+" "+object+" "+body);
+                output.write("send_email_to_list "+liste+" "+sender+" "+Pswd+" "+object+" "+body+" "+defaults);
                 output.flush();
                 break;
             case 7:
