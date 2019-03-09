@@ -1,9 +1,3 @@
-/*
- * This file must be runned in a separet project 
- * this is the test Client of the server
- */
-package listediffusionclient;
-
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -16,17 +10,8 @@ import java.util.Scanner;
  *
  * @author ameni
  */
+
 public class ListeDiffusionClient {
-    public static enum theme {
-        sociale ("sociale"), 
-        evenement ("evenement"), 
-        reunion ("reunion"),  
-        nouvelles ("nouvelles");
-        private  String theme;
-        theme(String theme) {
-            this.theme=theme;
-        }
-    }
 
     /**
      * @param args the command line arguments
@@ -35,9 +20,9 @@ public class ListeDiffusionClient {
         // TODO code application logic here
         Socket connexion = new Socket(InetAddress.getLocalHost(),33333);
         Writer output = new OutputStreamWriter(connexion.getOutputStream(), "8859_1");
-        
+
         /**************** TEST of server ************/
-        
+
         Scanner lecture = new Scanner(System.in);
         System.out.println("Choisi le numero de l'action à faire");
         System.out.println("-------------------------\n");
@@ -50,7 +35,7 @@ public class ListeDiffusionClient {
         System.out.println("7 - Afficher toutes les listes de diffusion");
         int choix = lecture.nextInt();
         /***************************************************/
-        
+
         switch (choix) {
             case 1:
                 //Creation liste
@@ -58,14 +43,15 @@ public class ListeDiffusionClient {
                 System.out.println("Veuillez saisir le nom de la liste :");
                 String nomliste = sc.nextLine();
                 System.out.println("Veuillez saisir le thème de la liste :");
-                theme th = theme.valueOf(sc.nextLine());
+                Theme theme = Theme.valueOf(sc.nextLine());
                 System.out.println("Veuillez saisir votre adresse mail :");
                 String diffuseur = sc.nextLine();
                 System.out.println("Veuillez saisir votre mot de passe :");
                 String mdp = sc.nextLine();
-                output.write("create_list "+nomliste+" "+th+" "+diffuseur+" "+mdp); output.flush();
+                output.write("create_list "+nomliste+" "+theme+" "+diffuseur+" "+mdp);
+                output.flush();
                 break;
-             case 2:
+            case 2:
                 //supprimer liste
                 Scanner in = new Scanner(System.in);
                 System.out.println("Veuillez saisir le nom de la liste que vous voulez supprimer :");
@@ -112,13 +98,11 @@ public class ListeDiffusionClient {
                 output.flush();
                 break;
             case 7:
-                output.write("afficher_list"); output.flush();
-                break; 
+                output.write("afficher_list");
+                output.flush();
+                break;
         }
-        
-        
-        
+
         connexion.shutdownOutput();
     }
-    
 }
