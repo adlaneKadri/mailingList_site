@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class ListeDeDiffusion {
-    public enum Theme {
+    /*public enum Theme {
         sociale ("sociale"),
         evenement ("evenement"),
         reunion ("reunion"),
@@ -13,7 +13,7 @@ public class ListeDeDiffusion {
         Theme(String theme) {
             this.theme=theme;
         }
-    }
+    }*/
     private String nom;
     private Theme theme;
     private Personne diffuseur;
@@ -21,10 +21,10 @@ public class ListeDeDiffusion {
     private ArrayList<Personne> listAbonnes;
 
     /* Constructor */
-    public ListeDeDiffusion(String nom, String theme, Personne diffuseur, String password) {
+    public ListeDeDiffusion(String nom, String theme, String diffuseurEmail, String password) throws AddressException {
         this.nom = nom;
         this.theme = Theme.valueOf(theme);
-        this.diffuseur = diffuseur;
+        this.diffuseur = new Personne(diffuseurEmail);
         this.password = password;
         this.listAbonnes = new ArrayList<>();
     }
@@ -87,12 +87,24 @@ public class ListeDeDiffusion {
 
     //supprimer abonne
     public  boolean removeAbonne(String mailAbonne) {
+
         boolean deleted =  listAbonnes.removeIf(personne->personne.getMail().equals(mailAbonne));
-           
-        if (deleted)
+            if (deleted)
                 System.out.println("Abonné supprimé avec succes");
             else
                 System.out.println("Abonné n'existe pas");
         return deleted;
     }
+
+    @Override
+    public String toString() {
+        return "{ " +
+                "\n\t<nom> " + this.getNom()  +" </nom>"+
+                "\n\t<theme> " + this.getTheme() + " </theme>" +
+                "\n\t<email-diffuseur> " + this.getDiffuseur().getMail() +" </email-diffuseur>"+
+                "\n\t<password> " + this.getPassword() + " </password> "+
+                "\n\t<nombre-abonnées> " + this.getListAbonnes().size()+" </nombre-abonnées> \n"+
+                '}';
+    }
+
 }
