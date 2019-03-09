@@ -1,0 +1,123 @@
+    
+    
+    public void sendEmail(String USER_NAME, String PASSWORD , String[] to , String subject , String body) {
+
+        final String MAIL_SERVER = "smtp";
+        final String SMTP_HOST_NAME = "smtp.gmail.com";
+        final int SMTP_HOST_PORT = 587;
+
+
+        // Message info
+
+       // private String[] to; //{ "adlan68@live.fr" }; // list of recipient email addresses
+         String[] cc = { "mr4youb@gmail.com" };
+        //private String[] bcc; //{ "sxxxx@gmail.com" };
+       // private String subject;  //= "Java Send Mail Attachement Example";
+       // private String body;   //"Welcome to Java Mail!<h1>Hello</h1>";
+
+
+//---------------------------------------------STEP 1---------------------------------------------
+
+            System.out.println( "\n 1st ===> Setup SMTP Mail Server Properties..!" );
+
+            // Get system properties
+            Properties properties = System.getProperties();
+
+            // Setup mail server
+            properties.put( "mail.smtp.starttls.enable", "true" );
+            properties.put( "mail.smtp.host", SMTP_HOST_NAME );
+            properties.put( "mail.smtp.user", USER_NAME );
+            properties.put( "mail.smtp.password", PASSWORD );
+            properties.put( "mail.smtp.port", SMTP_HOST_PORT );
+            properties.put( "mail.smtp.auth", "true" );
+
+        try {
+            //---------------------------------------------STEP 2---------------------------------------------
+
+
+            System.out.println( "\n\n 2nd ===> Get Mail Session.." );
+            // Get the Session object.
+
+            // creates a new session with an authenticator
+            Authenticator auth = new Authenticator() {
+                public PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication( USER_NAME, PASSWORD );
+                }
+            };
+
+            Session session = Session.getInstance( properties, auth );
+
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage( session );
+
+            try {
+
+                //---------------------------------------------
+
+                // Set From: header field of the header.
+                message.setFrom( new InternetAddress( USER_NAME ) );
+
+                //---------------------------------------------
+
+                InternetAddress[] toAddress = new InternetAddress[to.length];
+
+                // To get the array of toaddresses
+                for (int i = 0; i < to.length; i++) {
+                    toAddress[i] = new InternetAddress( to[i] );
+                }
+
+                // Set To: header field of the header.
+                for (int i = 0; i < toAddress.length; i++) {
+                    message.addRecipient( Message.RecipientType.TO, toAddress[i] );
+                }
+
+                InternetAddress[] ccAddress = new InternetAddress[cc.length];
+
+                // To get the array of ccaddresses
+                for (int i = 0; i < cc.length; i++) {
+                    ccAddress[i] = new InternetAddress( cc[i] );
+                }
+
+                // Set cc: header field of the header.
+                for (int i = 0; i < ccAddress.length; i++) {
+                    message.addRecipient( Message.RecipientType.CC, ccAddress[i] );
+                }
+
+
+                // Set Subject: header field
+                message.setSubject( subject );
+
+                // Now set the date to actual message
+                message.setSentDate( new Date() );
+
+                // Now set the actual message
+                message.setContent( body, "text/html" );
+
+
+                //---------------------------------------------STEP 3---------------------------------------------
+
+                System.out.println( "\n\n 3rd ===> Get Session and Send Mail" );
+                // Send message
+                Transport transport = session.getTransport( MAIL_SERVER );
+                transport.connect( SMTP_HOST_NAME, SMTP_HOST_PORT, USER_NAME, PASSWORD );
+                transport.sendMessage( message, message.getAllRecipients() );
+                transport.close();
+                System.out.println( "Sent Message Successfully...." );
+            } catch (AddressException ae) {
+                ae.printStackTrace();
+            } catch (MessagingException me) {
+                me.printStackTrace();
+            }
+
+            //---------------------------------------------------------------------------------------------------
+
+
+                System.out.println( "Email Sent....!" );
+            } catch (Exception ex) {
+                System.out.println( "Could not send email....!" );
+                ex.printStackTrace();
+            }
+
+
+
+        }
