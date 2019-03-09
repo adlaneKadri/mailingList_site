@@ -4,17 +4,12 @@
         <listAbonner Email_of_follower_num_1="dz@alg.tjrs"/>
     </sociale>
     <evenement difuseur="adlan68@live.fr" list_name="adlane" password="No_idea">
-        <listAbonner Email_of_follower_num_1="dataScience.ML@.tll"/>
-        <listAbonner Email_of_follower_num_2="kadri68@live.fr"/>
-        <listAbonner Email_of_follower_num_3="adlan1995kadri@gmail.com"/>
-        <listAbonner Email_of_follower_num_4="adlan@usthb-etd.dz"/>
+        <listAbonner Email_of_follower_num_1="dataScience.ML@.tll"  Email_of_follower_num_2="kadri68@live.fr" Email_of_follower_num_3="adlan1995kadri@gmail.com" Email_of_follower_num_4="adlan@usthb-etd.dz"/>
     </evenement>
     <reunion difuseur="booom@live.fr" list_name="Deg__e" password="live.1954.1962">
         <listAbonner/>
     </reunion>
     <nouvelles difuseur="neurla.network@keras.com" list_name="RNN" password="keras2019">
-        <listAbonner Email_of_follower_num_1="data@or.or"/>
-        <listAbonner Email_of_follower_num_2="net@tensorflow.tf"/>
-        <listAbonner Email_of_follower_num_3="neurones@network.nt"/>
+        <listAbonner Email_of_follower_num_1="data@or.or" Email_of_follower_num_2="net@tensorflow.tf" Email_of_follower_num_3="neurones@network.nt"/>
     </nouvelles>
 </listDifusions>
