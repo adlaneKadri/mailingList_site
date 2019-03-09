@@ -163,6 +163,7 @@ public class Esclave implements  Runnable{
                         ) {
                             String emailAbonner = personne.getMail();
                             xmlFile.appendXMLattribut(listFlower,"Email_of_follower_num_"+i,emailAbonner);
+                            i++;
                         }
                     }
                 }
