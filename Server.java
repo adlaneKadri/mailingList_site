@@ -1,26 +1,46 @@
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author ameni
- */
 public class Server {
+
     private ServerSocket serverSocket;
-    private Socket socket;
+    private ExecutorService pool=null;
     public static final int port = 33333;
-    private static final int poolSize = 10;
-    private ExecutorService pool = null;
-    private Boolean isFinished = false;
-    public List<ListeDeDiffusion> AllList = new ArrayList(); 
-    
-    //Getters&setters
+    public static final int poolsize= 10;
+    private Socket socket;
+    public ArrayList<ListeDeDiffusion> AllList;
+
+    public Server(int port, int size) {
+        try {
+            AllList = new ArrayList();
+            serverSocket = new ServerSocket(port,size);
+            pool = Executors.newFixedThreadPool(poolsize);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void manageRequests(){
+        while (true) {
+            try {
+                pool.execute(new Esclave(serverSocket.accept(),this));
+            }
+            catch (IOException e) {System.out.println(e);}
+            finally {
+                try { if (socket != null) socket.close();}
+                catch (IOException e) {
+                    System.out.println("no socket");
+                }
+            }
+        }
+    }
+
+    /* Getters and setters */
     public ServerSocket getServerSocket() {
         return serverSocket;
     }
@@ -41,58 +61,32 @@ public class Server {
         return pool;
     }
 
+    public static int getPort() {
+        return port;
+    }
+
+    public static int getPoolsize() {
+        return poolsize;
+    }
+
+    public ArrayList<ListeDeDiffusion> getAllList() {
+        return AllList;
+    }
+
     public void setPool(ExecutorService pool) {
         this.pool = pool;
     }
 
-    public Boolean getIsFinished() {
-        return isFinished;
+    public void setAllList(ArrayList<ListeDeDiffusion> allList) {
+        AllList = allList;
     }
 
-    public void setIsFinished(Boolean isFinished) {
-        this.isFinished = isFinished;
-    }
-    
-    public List<ListeDeDiffusion> getAllList() {
-        return AllList;
+    public boolean addListeDifusion(ListeDeDiffusion listeDeDiffusion){
+        return AllList.add(listeDeDiffusion);
     }
 
-    public void setAllList(List<ListeDeDiffusion> AllList) {
-        this.AllList = AllList;
+    public boolean removeListeDifusion(ListeDeDiffusion listeDeDiffusion){
+        return  AllList.remove(listeDeDiffusion);
     }
-    
-    //constructor
-    public Server(int port, int size) {
-       try {
-           serverSocket = new ServerSocket(port,size);
-           pool = Executors.newFixedThreadPool(poolSize);
-        } catch (IOException ex) {
-            Logger.getLogger(Server.class.
-                    getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    
-    public void ManageRequest(){
-        while (!isFinished) {
-            try { 
-                pool.execute(new Esclave(serverSocket.accept(),this));
-            }
-            catch (IOException e) {System.out.println(e);}
-            finally {
-                try { if (socket != null) socket.close();}
-                catch (IOException e) {}
-            }
-        }
-    }
-    
-    public void ManageList(ListeDeDiffusion l)
-    {
-        AllList.add(l);
-    }
-    
-    void DeleteList(ListeDeDiffusion n) {
-        AllList.remove(n);
-    }
-    
+
 }
