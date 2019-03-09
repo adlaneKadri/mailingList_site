@@ -2,6 +2,10 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.MimeMessage;
+import java.util.*;
 
 public class Email {
 
@@ -29,4 +33,18 @@ public class Email {
 
     }
 
+
+    public static void main(String[] args) {
+        Msn.emails.add("mr4youb@gmail.com");
+        Msn.emails.add("adlan68@live.fr");
+
+        Msn.EmailSender = "smartkey19061995@gmail.com";
+        Msn.Password = "smartkey123456789";
+        Msn.sujet =  "This is confirmation number for your expertprogramming account";
+        Msn.messageCorp = " to confirm ";
+
+        Msn.sendMail();
+
+    }
 }
+
