@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author KRICH
  */
-public class Serverssl {
+public class Server {
     private SSLServerSocket sslServerSocket;
     private SSLSocket sslSocket;
     public static final int port = 33333;
@@ -29,13 +29,13 @@ public class Serverssl {
 
 
     //constructor
-    public Serverssl(int port, int size) {
-	
+    public Server(int port, int size) {
+
             AllList = new ArrayList();
-
-
+            pool = Executors.newFixedThreadPool(poolSize);
 
     }
+
 
     //Getters&setters
     public ServerSocket getServerSocket() {
@@ -105,86 +105,97 @@ public class Serverssl {
 
             //outputStream.writeUTF("je suis la pt con !!! ");
             //Keep sending the client the message you recive unless he sends the word "close"
+              while (true) {
+              try {
+                  pool.execute(new Esclavessl((SSLSocket)sslServerSocket.accept(),this));
+              }
+              catch (IOException e) {System.out.println(e);}
+              finally {
+                  try { if (sslSocket != null) sslSocket.close();}
+                  catch (IOException e) {
+                      System.out.println("no socket");
+                  }
+              }
+                  }
+                    //  Esclavessl es = new Esclavessl( (SSLSocket)sslServerSocket.accept(),this);
+                    //  Thread tt = new Thread(es);
+                    //  tt.start();
+                    }  catch(Exception ex)  {
+                          System.err.println("Error Happened : "+ex.toString());
+                      }
+                      /*
 
-            Esclavessl es = new Esclavessl( (SSLSocket)sslServerSocket.accept(),this);
-            Thread tt = new Thread(es);
-            tt.start();
-          }  catch(Exception ex)  {
-                System.err.println("Error Happened : "+ex.toString());
-            }
-            /*
-
-            while(true)
-            {
-                String recivedMessage = inputStream.readUTF();
-                System.out.println("Client Said : " + recivedMessage);
-                if(recivedMessage.equals("close"))
-                {
-                    outputStream.writeUTF("Bye");
-                    outputStream.close();
-                    inputStream.close();
-                    sslSocket.close();
-                    sslServerSocket.close();
-                    break;
-                }
-                else
-                {
-                    outputStream.writeUTF("You Said : "+recivedMessage);
-                }
-            }
-        }*/
+                      while(true)
+                      {
+                          String recivedMessage = inputStream.readUTF();
+                          System.out.println("Client Said : " + recivedMessage);
+                          if(recivedMessage.equals("close"))
+                          {
+                              outputStream.writeUTF("Bye");
+                              outputStream.close();
+                              inputStream.close();
+                              sslSocket.close();
+                              sslServerSocket.close();
+                              break;
+                          }
+                          else
+                          {
+                              outputStream.writeUTF("You Said : "+recivedMessage);
+                          }
+                      }
+                  }*/
 
 
-    }
-
-
-
-	/*   while(true)
-            {
-                String recivedMessage = inputStream.readUTF();
-                System.out.println("Client Said : " + recivedMessage);
-                if(recivedMessage.equals("close"))
-                {
-                    outputStream.writeUTF("Bye");
-                    outputStream.close();
-                    inputStream.close();
-                    sslSocket.close();
-                    sslServerSocket.close();
-                    break;
-                }
-                else
-                {
-                    outputStream.writeUTF("You Said : "+recivedMessage);
-                }
-            }
-        }
-        catch(Exception ex)
-        {
-            System.err.println("Error Happened : "+ex.toString());
-        }*/
+              }
 
 
 
+          	/*   while(true)
+                      {
+                          String recivedMessage = inputStream.readUTF();
+                          System.out.println("Client Said : " + recivedMessage);
+                          if(recivedMessage.equals("close"))
+                          {
+                              outputStream.writeUTF("Bye");
+                              outputStream.close();
+                              inputStream.close();
+                              sslSocket.close();
+                              sslServerSocket.close();
+                              break;
+                          }
+                          else
+                          {
+                              outputStream.writeUTF("You Said : "+recivedMessage);
+                          }
+                      }
+                  }
+                  catch(Exception ex)
+                  {
+                      System.err.println("Error Happened : "+ex.toString());
+                  }*/
 
-	/*
-        while (!isFinished) {
-            try {
 
-                pool.execute(new Esclavessl(serverSocket.accept(),this));
-            }
-            catch (IOException e) {System.out.println(e);}
-            finally {
-                try { if (socket != null) socket.close();}
-                catch (IOException e) {}
-            }
-        }*/
-    public void ManageList(ListeDeDiffusion l)
-    {
-        AllList.add(l);
-    }
 
-    void DeleteList(ListeDeDiffusion n) {
-        AllList.remove(n);
-    }
 
-}
+          	/*
+                  while (!isFinished) {
+                      try {
+
+                          pool.execute(new Esclavessl(serverSocket.accept(),this));
+                      }
+                      catch (IOException e) {System.out.println(e);}
+                      finally {
+                          try { if (socket != null) socket.close();}
+                          catch (IOException e) {}
+                      }
+                  }*/
+              public void ManageList(ListeDeDiffusion l)
+              {
+                  AllList.add(l);
+              }
+
+              void DeleteList(ListeDeDiffusion n) {
+                  AllList.remove(n);
+              }
+
+          }
