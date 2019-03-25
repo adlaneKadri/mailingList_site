@@ -37,7 +37,6 @@ public class Serverssl {
 
     }
 
-
     //Getters&setters
     public ServerSocket getServerSocket() {
         return sslServerSocket;
